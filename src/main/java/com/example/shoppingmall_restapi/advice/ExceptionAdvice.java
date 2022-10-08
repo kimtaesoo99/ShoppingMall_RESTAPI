@@ -89,5 +89,27 @@ public class ExceptionAdvice {
     }
 
 
+    @ExceptionHandler(CartNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response cartNotFoundException() {
+        return Response.failure(404,"장바구니가 없습니다.");
+    }
+    @ExceptionHandler(CartItemNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response cartItemNotFoundException() {
+        return Response.failure(404,"장바구니에 해당 품목이 없습니다.");
+    }
+    @ExceptionHandler(LakingOfProductQuantity.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response lakingOfProductQuantity() {
+        return Response.failure(404,"상품 수량이 부족합니다.");
+    }
+    @ExceptionHandler(UserLackOfMoneyException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response userLackOfMoneyException() {
+        return Response.failure(404,"잔액이 부족합니다.");
+    }
+
+
 
 }
