@@ -4,7 +4,9 @@ import com.example.shoppingmall_restapi.controller.product.ProductController;
 import com.example.shoppingmall_restapi.dto.product.ProductCreateRequestDto;
 import com.example.shoppingmall_restapi.dto.product.ProductEditRequestDto;
 import com.example.shoppingmall_restapi.entity.member.Member;
+import com.example.shoppingmall_restapi.entity.product.Product;
 import com.example.shoppingmall_restapi.repository.member.MemberRepository;
+import com.example.shoppingmall_restapi.repository.product.ProductRepository;
 import com.example.shoppingmall_restapi.service.product.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +31,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static com.example.shoppingmall_restapi.factory.MemberFactory.createMember;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,6 +45,8 @@ public class ProductControllerUnitTest {
     ProductService productService;
     @Mock
     MemberRepository memberRepository;
+    @Mock
+    ProductRepository productRepository;
 
     MockMvc mockMvc;
     ObjectMapper objectMapper = new ObjectMapper();
@@ -47,7 +56,7 @@ public class ProductControllerUnitTest {
     }
 
     @Test
-    @DisplayName("productCreate")
+    @DisplayName("상품등록")
     public void productCreateTest()throws Exception{
         //given
         ProductCreateRequestDto req = new ProductCreateRequestDto("name","comment",1,1);
@@ -69,21 +78,18 @@ public class ProductControllerUnitTest {
     }
 
     @Test
-    @DisplayName("productFindAll")
+    @DisplayName("상품 전체 조회")
     public void productFindAllTest()throws Exception{
         //given
+        Pageable pageable = PageRequest.of(0,5, Sort.Direction.DESC,"id");
+        Page<Product> result = productRepository.findAll(pageable);
+        //when, //then
+        assertThat(result).isEqualTo(null);
 
-        //when
-        mockMvc.perform(
-                get("/api/products")
-        ).andExpect(status().isOk());
-
-        //then
-        verify(productService).productFindAll();
     }
 
     @Test
-    @DisplayName("productFind")
+    @DisplayName("상품 단건 조회")
     public void productFindTest()throws Exception{
         //given
         Long id = 1l;
@@ -98,7 +104,7 @@ public class ProductControllerUnitTest {
     }
 
     @Test
-    @DisplayName("productEdit")
+    @DisplayName("상품 수정")
     public void productEditTest()throws Exception {
         //given
         Long id = 1l;
@@ -123,7 +129,7 @@ public class ProductControllerUnitTest {
     }
 
     @Test
-    @DisplayName("productDelete")
+    @DisplayName("상품 삭제")
     public void productDeleteTest()throws Exception{
         //given
         Long id =1l;

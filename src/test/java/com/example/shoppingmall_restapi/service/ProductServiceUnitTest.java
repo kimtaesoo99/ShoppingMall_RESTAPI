@@ -14,7 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.ArrayList;
+import org.springframework.data.domain.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class ProductServiceUnitTest {
     ProductRepository productRepository;
 
     @Test
-    @DisplayName("productCreate")
+    @DisplayName("상품 등록")
     public void productCreateTest(){
         //given
         ProductCreateRequestDto req = new ProductCreateRequestDto("name","comment",1,1);
@@ -47,24 +48,25 @@ public class ProductServiceUnitTest {
     }
 
     @Test
-    @DisplayName("productFindAll")
+    @DisplayName("상품 전체 조회")
     public void productFindAllTest(){
         //given
+        Pageable pageable = PageRequest.of(0,5, Sort.Direction.DESC,"id");
+        List<Product> productList = productRepository.findAll();
         Member member = createMember();
-        Product product = createProduct(member);
-        List<Product> products = new ArrayList<>();
-        products.add(product);
-        given(productRepository.findAll()).willReturn(products);
+        productList.add(createProduct(member));
+        Page<Product> products = new PageImpl<>(productList);
+        given(productRepository.findAll(pageable)).willReturn(products);
 
 
         //when
-        List<ProductFindAllResponseDto> result = productService.productFindAll();
+        List<ProductFindAllResponseDto> result = productService.productFindAll(pageable);
 
         //then
-        assertThat(result.size()).isEqualTo(products.size());
+        assertThat(result.get(0).getName()).isEqualTo(createProduct(member).getName());
     }
     @Test
-    @DisplayName("productFind")
+    @DisplayName("상품 단건 조회")
     public void productFindTest(){
         //given
         Long id =1l;
@@ -79,7 +81,7 @@ public class ProductServiceUnitTest {
     }
 
     @Test
-    @DisplayName("productEdit")
+    @DisplayName("상품 수정")
     public void productEditTest(){
         //given
         ProductEditRequestDto req  = new ProductEditRequestDto("name","comment",1,1);
@@ -98,7 +100,7 @@ public class ProductServiceUnitTest {
     }
 
     @Test
-    @DisplayName("productDelete")
+    @DisplayName("상품 삭제")
     public void productDeleteTest(){
         //given
         Long id = 1l;

@@ -10,6 +10,8 @@ import com.example.shoppingmall_restapi.exception.MemberNotEqualsException;
 import com.example.shoppingmall_restapi.exception.ProductNotFoundException;
 import com.example.shoppingmall_restapi.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +34,8 @@ public class ProductService {
     }
     //상품 전체조회
     @Transactional(readOnly = true)
-    public List<ProductFindAllResponseDto> productFindAll(){
-        List<Product> products = productRepository.findAll();
+    public List<ProductFindAllResponseDto> productFindAll(Pageable pageable){
+        Page<Product> products = productRepository.findAll(pageable);
         List<ProductFindAllResponseDto> result = new ArrayList<>();
         products.forEach(s-> result.add(ProductFindAllResponseDto.toDto(s)));
         return result;

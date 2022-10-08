@@ -8,6 +8,9 @@ import com.example.shoppingmall_restapi.repository.member.MemberRepository;
 import com.example.shoppingmall_restapi.response.Response;
 import com.example.shoppingmall_restapi.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,8 +38,8 @@ public class ProductController {
     //상품 전체 조회
     @GetMapping("/products")
     @ResponseStatus(HttpStatus.OK)
-    public Response productFindAll(){
-        return Response.success(productService.productFindAll());
+    public Response productFindAll(@PageableDefault(size=10,sort = "id",direction = Sort.Direction.DESC)Pageable pageable){
+        return Response.success(productService.productFindAll(pageable));
     }
 
     //상품 단건 조회
