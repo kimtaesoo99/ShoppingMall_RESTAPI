@@ -34,14 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    public void configure(WebSecurity web) {
+    public void configure(WebSecurity web) { //하위 모든 요청과 파비콘은 모두 무시하는 설정
         web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // CSRF 설정 Disable
+        // CSRF 설정 Disable 토큰방식을 사용하기 때문이다.
         http.csrf().disable();
 
         // CORS
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             return cors;
         });
         http
-                .authorizeRequests()
+                .authorizeRequests() //HttpServletRequest를 사용하 요청제한 접근 설정
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
 
 

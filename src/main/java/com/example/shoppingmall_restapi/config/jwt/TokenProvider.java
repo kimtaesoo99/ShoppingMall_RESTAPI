@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class TokenProvider {
+public class TokenProvider { //토큰생성과 유효성검증등을 담당
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
@@ -36,6 +36,7 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    //Authentication객체의 권한정보를 이용해서 토큰을 생성하는 메서드
     public TokenDto generateTokenDto(Authentication authentication) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
@@ -67,8 +68,9 @@ public class TokenProvider {
                 .build();
     }
 
+    //토큰에 담겨있는 정보를 이용해 Authentication객체를 리턴
     public Authentication getAuthentication(String accessToken) {
-        // 토큰 복호화
+        // 토큰 복호화 토큰으로 클레임을 만들고 이를 이용해 유저 객체를 만듬
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
@@ -87,6 +89,7 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+    //토큰을 파싱해보고 발생하는 익셉션들을 캐,문제가있으면 false, 없으면 true
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
