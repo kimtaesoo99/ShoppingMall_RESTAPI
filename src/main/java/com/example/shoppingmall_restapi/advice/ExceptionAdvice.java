@@ -110,6 +110,12 @@ public class ExceptionAdvice {
         return Response.failure(404,"잔액이 부족합니다.");
     }
 
+    @ExceptionHandler(ReviewNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response reviewNotFoundException() {
+        return Response.failure(404,"리뷰가 없습니다..");
+    }
+
 
 
 }
