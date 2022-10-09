@@ -72,48 +72,48 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(MemberNotFoundException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response memberNotFoundException() {
         return Response.failure(404,"해당 유저가 없습니다.");
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response productNotFoundException() {
         return Response.failure(404,"해당 상품이 없습니다.");
     }
     @ExceptionHandler(MemberNotEqualsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Response memberNotEqualsException() {
         return Response.failure(401,"유저가 일치하지 않습니다.");
     }
 
 
     @ExceptionHandler(CartNotFoundException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response cartNotFoundException() {
         return Response.failure(404,"장바구니가 없습니다.");
     }
     @ExceptionHandler(CartItemNotFoundException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response cartItemNotFoundException() {
         return Response.failure(404,"장바구니에 해당 품목이 없습니다.");
     }
     @ExceptionHandler(LakingOfProductQuantity.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public Response lakingOfProductQuantity() {
-        return Response.failure(404,"상품 수량이 부족합니다.");
+        return Response.failure(409,"상품 수량이 부족합니다.");
     }
     @ExceptionHandler(UserLackOfMoneyException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public Response userLackOfMoneyException() {
-        return Response.failure(404,"잔액이 부족합니다.");
+        return Response.failure(409,"잔액이 부족합니다.");
     }
 
     @ExceptionHandler(ReviewNotFoundException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response reviewNotFoundException() {
-        return Response.failure(404,"리뷰가 없습니다..");
+        return Response.failure(404,"리뷰가 없습니다.");
     }
 
 
