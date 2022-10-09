@@ -1,11 +1,17 @@
 package com.example.shoppingmall_restapi.dto.product;
 
+import com.example.shoppingmall_restapi.entity.image.Image;
+import com.example.shoppingmall_restapi.entity.member.Member;
+import com.example.shoppingmall_restapi.entity.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,4 +30,5 @@ public class ProductCreateRequestDto {
     @NotNull(message = "상품 수량을 입력해주세요.")
     private int quantity;
 
+    private List<MultipartFile> images = new ArrayList<>();
 }

@@ -28,7 +28,7 @@ public class ProductController {
     //상품 등록
     @PostMapping("/products")
     @ResponseStatus(HttpStatus.CREATED)
-    public Response productsCreate(@Valid @RequestBody ProductCreateRequestDto req){
+    public Response productsCreate(@Valid @ModelAttribute ProductCreateRequestDto req){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member member = memberRepository.findByUsername(authentication.getName()).orElseThrow(MemberNotFoundException::new);
         productService.productCreate(req,member);
@@ -52,7 +52,7 @@ public class ProductController {
     //상품 수정
     @PutMapping("/products/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response productEdit(@Valid @RequestBody ProductEditRequestDto req, @PathVariable("id") Long id){
+    public Response productEdit(@Valid @ModelAttribute ProductEditRequestDto req, @PathVariable("id") Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member member = memberRepository.findByUsername(authentication.getName()).orElseThrow(MemberNotFoundException::new);
         productService.productEdit(req,id,member);

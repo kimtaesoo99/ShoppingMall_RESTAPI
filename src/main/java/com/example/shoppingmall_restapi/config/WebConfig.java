@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final MessageSource messageSource;
 
     //    @Value("${upload.image.location}")
-    private String location = "/Users/yoon/Desktop/image/";
+    private String location = "/Users/kimtaesoo/Desktop/image/";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -115,6 +115,16 @@ public class ExceptionAdvice {
     public Response reviewNotFoundException() {
         return Response.failure(404,"리뷰가 없습니다.");
     }
+    @ExceptionHandler(UnsupportedImageFormatException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response unsupportedImageFormatException() {
+        return Response.failure(404,"이미지 형식을 지원하지 않습니다.");
+    }
+    @ExceptionHandler(FileUploadFailureException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response fileUploadFailureException() {
+        return Response.failure(404,"이미지 업로드 실패");
+    }
 
 
 
