@@ -4,11 +4,13 @@ import com.example.shoppingmall_restapi.dto.cart.CartCreateRequestDto;
 import com.example.shoppingmall_restapi.dto.cart.CartItemResponseDto;
 import com.example.shoppingmall_restapi.entity.cart.Cart;
 import com.example.shoppingmall_restapi.entity.cartitem.CartItem;
+import com.example.shoppingmall_restapi.entity.history.History;
 import com.example.shoppingmall_restapi.entity.member.Member;
 import com.example.shoppingmall_restapi.entity.product.Product;
 import com.example.shoppingmall_restapi.exception.*;
 import com.example.shoppingmall_restapi.repository.cart.CartItemRepository;
 import com.example.shoppingmall_restapi.repository.cart.CartRepository;
+import com.example.shoppingmall_restapi.repository.history.HistoryRepository;
 import com.example.shoppingmall_restapi.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final CartItemRepository cartItemRepository;
+    private final HistoryRepository historyRepository;
     //장바구니 담기
     @Transactional
     public void cartCreate(CartCreateRequestDto req, Member member){
@@ -78,8 +81,12 @@ public class CartService {
             product.setQuantity(product.getQuantity()-cartItem.getQuantity());
             member.setMoney(member.getMoney()-product.getPrice()*cartItem.getQuantity());
             product.getSeller().setMoney(product.getSeller().getMoney()+(product.getPrice()*cartItem.getQuantity()));
+
+            History history = new History(member,product.getSeller(),product,cartItem.getQuantity());
+            historyRepository.save(history);
         }
         checkMemberCanBuyCartItemAll(member);
+
         cartRepository.delete(cart);
     }
     public boolean checkMemberCanBuyCartItemForEach(Product product,Member member,CartItem cartItem) {

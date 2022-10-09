@@ -4,10 +4,12 @@ import com.example.shoppingmall_restapi.dto.cart.CartCreateRequestDto;
 import com.example.shoppingmall_restapi.dto.cart.CartItemResponseDto;
 import com.example.shoppingmall_restapi.entity.cart.Cart;
 import com.example.shoppingmall_restapi.entity.cartitem.CartItem;
+import com.example.shoppingmall_restapi.entity.history.History;
 import com.example.shoppingmall_restapi.entity.member.Member;
 import com.example.shoppingmall_restapi.entity.product.Product;
 import com.example.shoppingmall_restapi.repository.cart.CartItemRepository;
 import com.example.shoppingmall_restapi.repository.cart.CartRepository;
+import com.example.shoppingmall_restapi.repository.history.HistoryRepository;
 import com.example.shoppingmall_restapi.repository.product.ProductRepository;
 import com.example.shoppingmall_restapi.service.cart.CartService;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +25,7 @@ import java.util.Optional;
 
 import static com.example.shoppingmall_restapi.factory.CartFactory.createCart;
 import static com.example.shoppingmall_restapi.factory.CartFactory.createCartItem;
+import static com.example.shoppingmall_restapi.factory.HistoryFactory.createHistory;
 import static com.example.shoppingmall_restapi.factory.MemberFactory.createMember;
 import static com.example.shoppingmall_restapi.factory.MemberFactory.createSeller;
 import static com.example.shoppingmall_restapi.factory.ProductFactory.createProduct;
@@ -41,6 +44,8 @@ public class CartServiceUnitTest {
     ProductRepository productRepository;
     @Mock
     CartItemRepository cartItemRepository;
+    @Mock
+    HistoryRepository historyRepository;
 
     @Test
     @DisplayName("장바구니 담기")
@@ -110,7 +115,6 @@ public class CartServiceUnitTest {
         cartItems.add(createCartItem(cart,product));
         given(cartRepository.findCartByMember(member)).willReturn(Optional.of(cart));
         given(cartItemRepository.findAllByCart(cart)).willReturn(cartItems);
-
         //when
         cartService.buyingAll(member);
 

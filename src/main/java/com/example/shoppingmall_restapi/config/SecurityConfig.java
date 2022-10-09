@@ -95,6 +95,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/carts/{cartItemId}").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.POST, "/api/carts/buying").access("hasRole('ROLE_USER')")
 
+                .antMatchers(HttpMethod.GET, "/api/buyHistories").access("hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/api/sellHistories").access("hasRole('ROLE_SELLER')")
+
+
 
                 .anyRequest().hasAnyRole("ROLE_ADMIN")
 //                .anyRequest().authenticated() // 나머지는 전부 인증 필요
