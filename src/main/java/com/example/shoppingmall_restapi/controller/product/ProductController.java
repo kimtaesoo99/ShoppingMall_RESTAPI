@@ -68,4 +68,13 @@ public class ProductController {
         productService.productDelete(id,member);
         return Response.success();
     }
+    //상품 좋아요 및 취소
+    @PostMapping("/products/{id}/likes")
+    @ResponseStatus(HttpStatus.OK)
+    public Response productLike(@PathVariable("id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = memberRepository.findByUsername(authentication.getName()).orElseThrow(MemberNotFoundException::new);
+        productService.productLike(id,member);
+        return Response.success();
+    }
 }

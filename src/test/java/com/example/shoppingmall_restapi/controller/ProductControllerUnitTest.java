@@ -182,4 +182,22 @@ public class ProductControllerUnitTest {
         //then
         verify(productService).productDelete(id,member);
     }
+    @Test
+    @DisplayName("상품 좋아요 및 취소")
+    public void likeProduct() throws Exception {
+        // given
+        Long id = 1L;
+        Member member = createMember();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(member.getId(), "", Collections.emptyList());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        given(memberRepository.findByUsername(authentication.getName())).willReturn(Optional.of(member));
+
+        // when
+        mockMvc.perform(
+                post("/api/products/{id}/likes", id)
+        ).andExpect(status().isOk());
+
+        // then
+        verify(productService).productLike(id, member);
+    }
 }

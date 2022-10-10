@@ -4,8 +4,10 @@ import com.example.shoppingmall_restapi.dto.product.ProductCreateRequestDto;
 import com.example.shoppingmall_restapi.dto.product.ProductEditRequestDto;
 import com.example.shoppingmall_restapi.dto.product.ProductFindAllResponseDto;
 import com.example.shoppingmall_restapi.dto.product.ProductFindResponseDto;
+import com.example.shoppingmall_restapi.entity.likes.Likes;
 import com.example.shoppingmall_restapi.entity.member.Member;
 import com.example.shoppingmall_restapi.entity.product.Product;
+import com.example.shoppingmall_restapi.repository.likes.LikesRepository;
 import com.example.shoppingmall_restapi.repository.product.ProductRepository;
 import com.example.shoppingmall_restapi.service.image.FileService;
 import com.example.shoppingmall_restapi.service.product.ProductService;
@@ -41,6 +43,8 @@ public class ProductServiceUnitTest {
     ProductRepository productRepository;
     @Mock
     FileService fileService;
+    @Mock
+    LikesRepository likesRepository;
 
     @Test
     @DisplayName("상품 등록")
@@ -139,5 +143,42 @@ public class ProductServiceUnitTest {
 
         //then
         verify(productRepository).delete(product);
+    }
+
+    @Test
+    @DisplayName("상품 좋아요 및 취소 (좋아요가 없는 경우)")
+    public void likeProductTest() {
+        // given
+        Long id = 1L;
+        Member member = createMember();
+        Product product = createProduct(member);
+
+        given(productRepository.findById(id)).willReturn(Optional.of(product));
+        given(likesRepository.findByMemberAndProduct(member, product)).willReturn(Optional.empty());
+
+        // when
+        productService.productLike(id, member);
+
+        // then
+        verify(likesRepository).save(new Likes(member, product));
+    }
+
+    @Test
+    @DisplayName("상품 좋아요 및 취소 (좋아요가 이미 있는 경우)")
+    public void likeProductAlreadyLikeExistTest() {
+        // given
+        Long id = 1L;
+        Member member = createMember();
+        Product product = createProduct(member);
+        Likes likes = new Likes(member, product);
+
+        given(productRepository.findById(id)).willReturn(Optional.of(product));
+        given(likesRepository.findByMemberAndProduct(member, product)).willReturn(Optional.of(likes));
+
+        // when
+        productService.productLike(id, member);
+
+        // then
+        verify(likesRepository).delete(likes);
     }
 }

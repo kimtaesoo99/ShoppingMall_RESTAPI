@@ -5,10 +5,12 @@ import com.example.shoppingmall_restapi.dto.product.ProductEditRequestDto;
 import com.example.shoppingmall_restapi.dto.product.ProductFindAllResponseDto;
 import com.example.shoppingmall_restapi.dto.product.ProductFindResponseDto;
 import com.example.shoppingmall_restapi.entity.image.Image;
+import com.example.shoppingmall_restapi.entity.likes.Likes;
 import com.example.shoppingmall_restapi.entity.member.Member;
 import com.example.shoppingmall_restapi.entity.product.Product;
 import com.example.shoppingmall_restapi.exception.MemberNotEqualsException;
 import com.example.shoppingmall_restapi.exception.ProductNotFoundException;
+import com.example.shoppingmall_restapi.repository.likes.LikesRepository;
 import com.example.shoppingmall_restapi.repository.product.ProductRepository;
 import com.example.shoppingmall_restapi.service.image.FileService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +35,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final FileService fileService;
+
+    private final LikesRepository likesRepository;
 
     //상품 등록
     @Transactional
@@ -74,6 +79,19 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
         if (!member.equals(product.getSeller()))throw new MemberNotEqualsException();
         productRepository.delete(product);
+    }
+
+    //상품 좋아요 및 취소
+    @Transactional
+    public void productLike(Long id ,Member member){
+        Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+
+        if (!likesRepository.findByMemberAndProduct(member,product).isEmpty()){
+            Likes likes = likesRepository.findByMemberAndProduct(member,product).get();
+            likesRepository.delete(likes);
+        }
+        else likesRepository.save(new Likes(member,product));
+
     }
 
     private void uploadImages(List<Image> images, List<MultipartFile> fileImages) {
