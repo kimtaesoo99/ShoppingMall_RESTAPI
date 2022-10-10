@@ -82,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/products").access("hasRole('ROLE_SELLER')")
                 .antMatchers(HttpMethod.GET, "/api/products").access("hasRole('ROLE_USER') or hasRole('ROLE_SELLER') or hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.GET, "/api/products/{id}").access("hasRole('ROLE_USER') or hasRole('ROLE_SELLER') or hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.POST, "/api/products/{id}/likes").access("hasRole('ROLE_USER') or hasRole('ROLE_SELLER') or hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.PUT, "/api/products/{id}").access("hasRole('ROLE_SELLER')")
                 .antMatchers(HttpMethod.DELETE, "/api/products/{id}").access("hasRole('ROLE_SELLER')")
 
@@ -94,6 +95,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/carts").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.DELETE, "/api/carts/{cartItemId}").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.POST, "/api/carts/buying").access("hasRole('ROLE_USER')")
+
+                .antMatchers(HttpMethod.PUT, "/api/members").access("hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/api/members").access("hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.DELETE, "/api/members").access("hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/api/members/likes").access("hasRole('ROLE_USER')")
 
                 .antMatchers(HttpMethod.GET, "/api/buyHistories").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.GET, "/api/sellHistories").access("hasRole('ROLE_SELLER')")
