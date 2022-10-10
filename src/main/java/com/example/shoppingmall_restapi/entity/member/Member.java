@@ -1,5 +1,6 @@
 package com.example.shoppingmall_restapi.entity.member;
 
+import com.example.shoppingmall_restapi.dto.member.MemberEditRequestDto;
 import com.example.shoppingmall_restapi.entity.common.EntityDate;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -54,6 +55,15 @@ public class Member extends EntityDate {
         this.address = address;
         this.authority = authority;
         this.money = 0;
+    }
+
+    public Member memberEdit(MemberEditRequestDto req){
+
+        this.name =req.getName();
+        this.nickname=req.getNickname();
+        this.phone=req.getPhone();
+        this.address=req.getAddress();
+        return this;
     }
 
     public void setMoney(int money) {
