@@ -19,10 +19,11 @@ public class ProductFindResponseDto {
     private int price;
     private int quantity;
     private String seller_username;
+    private int likeCount;
     private List<ImageDto> images;
     private LocalDateTime createAt;
 
     public static ProductFindResponseDto toDto(Product p) {
-        return new ProductFindResponseDto(p.getName(), p.getComment(), p.getPrice(), p.getQuantity(), p.getSeller().getNickname(), p.getImages().stream().map(i -> ImageDto.toDto(i)).collect(Collectors.toList()),p.getCreatedAt());
+        return new ProductFindResponseDto(p.getName(), p.getComment(), p.getPrice(), p.getQuantity(), p.getSeller().getNickname(), p.getLikesCount(),p.getImages().stream().map(i -> ImageDto.toDto(i)).collect(Collectors.toList()),p.getCreatedAt());
     }
 }

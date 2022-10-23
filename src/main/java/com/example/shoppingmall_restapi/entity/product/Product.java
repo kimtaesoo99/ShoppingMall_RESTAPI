@@ -46,17 +46,21 @@ public class Product extends EntityDate {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member seller;
 
+    @Column(nullable = false)
+    private int likesCount;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Image> images;
 
 
 
-    public Product(String name, String comment, int price, int quantity, Member seller,List<Image> images) {
+    public Product(String name, String comment, int price, int quantity, Member seller,int likesCount,List<Image> images) {
         this.name = name;
         this.comment = comment;
         this.price = price;
         this.quantity = quantity;
         this.seller = seller;
+        this.likesCount = likesCount;
         this.images = new ArrayList<>();
         addImages(images);
     }

@@ -14,12 +14,12 @@ public class ProductFactory {
     public static Product createProduct(Member member){
         List<Image> images = new ArrayList<>();
         images.add(createImage());
-        Product product = new Product("name","comment",1,1,member,images);
+        Product product = new Product("name","comment",1,1,member,0,images);
         return product;
     }
 
     public static Product createProductWithImages(Member member, List<Image> images) {
-        return new Product("제목", "내용",1,100,member,  images);
+        return new Product("제목", "내용",1,100,member,0,  images);
     }
 }
 
