@@ -3,7 +3,6 @@ package com.example.shoppingmall_restapi.advice;
 import com.example.shoppingmall_restapi.exception.*;
 import com.example.shoppingmall_restapi.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.bind.BindException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -104,6 +103,20 @@ public class ExceptionAdvice {
     public Response lakingOfProductQuantity() {
         return Response.failure(409,"상품 수량이 부족합니다.");
     }
+
+    @ExceptionHandler(NotSelfReportException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response notSelfReportException() {
+        return Response.failure(409,"자기 자신에게 신고를 할 수 없습니다.");
+    }
+
+    @ExceptionHandler(UserAlreadyReportedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response userAlreadyReportedException() {
+        return Response.failure(409,"이미 신고된 유저입니다.");
+    }
+
+
     @ExceptionHandler(UserLackOfMoneyException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public Response userLackOfMoneyException() {
