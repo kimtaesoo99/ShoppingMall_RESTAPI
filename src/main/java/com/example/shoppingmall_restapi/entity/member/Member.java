@@ -41,11 +41,14 @@ public class Member extends EntityDate {
     @Column(nullable = false)
     private int money;
 
+    @Column(nullable = false)
+    private int reportedCount;
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
     @Builder
-    public Member(String username, String password, String name, String nickname, String email, String phone, String address, Authority authority) {
+    public Member(String username, String password, String name, String nickname, String email, String phone, String address, Authority authority,int reportedCount) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -55,10 +58,10 @@ public class Member extends EntityDate {
         this.address = address;
         this.authority = authority;
         this.money = 0;
+        this.reportedCount = reportedCount;
     }
 
     public Member memberEdit(MemberEditRequestDto req){
-
         this.name =req.getName();
         this.nickname=req.getNickname();
         this.phone=req.getPhone();
@@ -68,5 +71,8 @@ public class Member extends EntityDate {
 
     public void setMoney(int money) {
         this.money = money;
+    }
+    public void setReportedCount(Member member){
+        this.reportedCount = getReportedCount()+1;
     }
 }
