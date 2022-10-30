@@ -27,7 +27,19 @@
 - Jar
 - Spring Boot 2.7.4
 ---
-# 5. Convention
+
+# 5. JUnit5 Test
+
+Controller & Service unit test
+
+<img width="461" alt="스크린샷 2022-10-23 오후 5 26 37" src="https://user-images.githubusercontent.com/107785279/197382283-b5edb4ca-e2fc-461d-9334-007b7f9b5ed8.png">
+
+<img width="453" alt="스크린샷 2022-10-23 오후 5 26 50" src="https://user-images.githubusercontent.com/107785279/197382314-eb7f680a-5884-4a20-8fb6-2ab44379318e.png">
+
+
+---
+
+# 6. Convention
 | **Git Convention** |
 ```text
 Git Convention
