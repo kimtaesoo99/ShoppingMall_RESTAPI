@@ -5,6 +5,6 @@ import com.example.shoppingmall_restapi.entity.report.UserReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface ReportRepository extends JpaRepository<UserReport,Long> {
+public interface UserReportRepository extends JpaRepository<UserReport,Long> {
     UserReport findByReporterAndReportedMember(Member reporter, Member reported);
 }
