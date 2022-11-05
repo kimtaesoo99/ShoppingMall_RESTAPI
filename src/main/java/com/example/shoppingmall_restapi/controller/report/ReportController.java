@@ -33,4 +33,14 @@ public class ReportController {
         return Response.success();
     }
 
+    //상품을 신고
+    @PostMapping("/report/products")
+    @ResponseStatus(HttpStatus.OK)
+    public Response reportProduct(@Valid @RequestBody ProductReportRequest req){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = memberRepository.findByUsername(authentication.getName()).orElseThrow(MemberNotFoundException::new);
+        reportService.reportProduct(req,member);
+        return Response.success();
+    }
+
 }
