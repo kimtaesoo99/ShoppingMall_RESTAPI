@@ -49,18 +49,22 @@ public class Product extends EntityDate {
     @Column(nullable = false)
     private int likesCount;
 
+    @Column(nullable = false)
+    private Integer reportedCount;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Image> images;
 
 
 
-    public Product(String name, String comment, int price, int quantity, Member seller,int likesCount,List<Image> images) {
+    public Product(String name, String comment, int price, int quantity, Member seller,int likesCount,int reportedCount,List<Image> images) {
         this.name = name;
         this.comment = comment;
         this.price = price;
         this.quantity = quantity;
         this.seller = seller;
         this.likesCount = likesCount;
+        this.reportedCount=reportedCount;
         this.images = new ArrayList<>();
         addImages(images);
     }
@@ -75,6 +79,10 @@ public class Product extends EntityDate {
         addImages(result.getAddedImages());
         deleteImages(result.getDeletedImages());
         return result;
+    }
+
+    public void setReportedCount(){
+        this.reportedCount = getReportedCount()+1;
     }
 
 
@@ -118,6 +126,8 @@ public class Product extends EntityDate {
         private List<Image> addedImages;
         private List<Image> deletedImages;
     }
+
+
 }
 
 

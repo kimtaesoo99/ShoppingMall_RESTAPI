@@ -116,6 +116,12 @@ public class ExceptionAdvice {
         return Response.failure(409,"이미 신고된 유저입니다.");
     }
 
+    @ExceptionHandler(ProductAlreadyReportedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response productAlreadyReportedException() {
+        return Response.failure(409,"이미 신고된 상품입니다.");
+    }
+
 
     @ExceptionHandler(UserLackOfMoneyException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
