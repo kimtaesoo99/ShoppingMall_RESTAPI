@@ -42,7 +42,7 @@ public class ProductService {
     @Transactional
     public void productCreate(ProductCreateRequestDto req , Member member){
         List<Image> images = req.getImages().stream().map(i -> new Image(i.getOriginalFilename())).collect(toList());
-        Product product = new Product(req.getName(),req.getComment(),req.getPrice(), req.getQuantity(), member,0,images);
+        Product product = new Product(req.getName(),req.getComment(),req.getPrice(), req.getQuantity(), member,0,0,images);
         productRepository.save(product);
         uploadImages(product.getImages(), req.getImages());
 
