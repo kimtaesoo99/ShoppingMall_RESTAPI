@@ -20,6 +20,7 @@
 - History
 - Images
 - Likes
+- Report
 ---
 # 4. version
 - Java11
